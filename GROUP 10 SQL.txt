@@ -1,0 +1,285 @@
+CREATE TABLE Health_History
+(
+Patient_ID VARCHAR2 (100) PRIMARY KEY,
+Health_Issue VARCHAR2 (100),
+Appointment_date Date,
+Hospital_name VARCHAR2 (100),
+Doctor VARCHAR2 (100)
+
+);
+
+CREATE TABLE Foster_Parents
+(
+Foster_NID VARCHAR2 (100) PRIMARY KEY,
+Foster_Father VARCHAR2 (100),
+Foster_Mother VARCHAR2 (100),
+Foster_Phone VARCHAR2 (100),
+Foster_Address VARCHAR2 (100),
+FOSTER_PASSWORD VARCHAR2 (100)
+
+);
+
+INSERT INTO Health_History (Patient_ID, Health_Issue ,Appointment_date, Hospital_name, Doctor) VALUES ('P_000001','Vitamin D deficiency', to_date('10-11-2019','DD-MM-YYYY'), 'Evercare Hospital', 'Rashidul Islam');
+
+
+INSERT INTO Foster_Parents(Foster_NID, Foster_Father ,Foster_Mother, Foster_Phone, Foster_Address, FOSTER_PASSWORD) VALUES ('Foster_000001','Enamul Bijoy', 'Lara hoque', '01955966517', '13/A, Siddheswari Lane, Dhaka','F01');
+
+
+
+
+
+CREATE TABLE ADOPTION
+(
+
+ADOPTION_ID VARCHAR2(100) PRIMARY KEY ,
+Foster_NID VARCHAR2 (100) NOT NULL ,
+Court_Reference VARCHAR2 (100),
+Adoption_Date DATE 
+
+);
+ALTER TABLE ADOPTION ADD FOREIGN KEY(FOSTER_NID) REFERENCES FOSTER_PARENTS (FOSTER_NID);
+
+
+CREATE TABLE  EMPLOYEE
+   (
+    EMPLOYEE_ID VARCHAR2(100) PRIMARY KEY , 
+	Emp_Name VARCHAR2(100),
+    Emp_Department VARCHAR2(100),
+    Emp_Designation VARCHAR2(100),
+    Emp_Joining_date DATE,
+    Salary NUMBER,
+    Years_of_working NUMBER,
+    EMPLOYEE_PASSWORD VARCHAR2 (100),
+    if_supervisor Number,
+    No_Of_child_supervision NUMBER
+
+   ) ;
+   
+   
+
+
+
+
+
+
+CREATE TABLE  CHILDREN_INFORMATION 
+   (
+    CHILD_ID VARCHAR2(100) PRIMARY KEY , 
+	 
+	CHILD_NAME VARCHAR2(100), 
+	CHILD_AGE NUMBER, 
+	CHILD_BED_NO VARCHAR(100), 
+	CHILD_GENDER VARCHAR2(100), 
+	CHILD_HEALTH_CONDITION VARCHAR2(100), 
+	CHILD_INSTITUTION_NAME VARCHAR2(100), 
+	CHILD_CLASS NUMBER, 
+	CHILD_NATURE VARCHAR2(100), 
+	ADDRESSING_DATE DATE ,
+    EMPLOYEE_ID VARCHAR2 (100) NOT NULL ,
+    ADOPTION_ID VARCHAR2 (100)  
+    
+   ) ;
+ALTER TABLE CHILDREN_INFORMATION ADD FOREIGN KEY(ADOPTION_ID)  REFERENCES ADOPTION(ADOPTION_ID);
+ALTER TABLE CHILDREN_INFORMATION ADD FOREIGN KEY(EMPLOYEE_ID)  REFERENCES Employee(EMPLOYEE_ID);
+
+
+
+CREATE TABLE CHILDREN_Health_TRACK
+(
+Patient_ID VARCHAR2 (100),
+CHILD_ID VARCHAR2 (100)
+
+);
+
+ALTER TABLE CHILDREN_HEALTH_TRACK ADD FOREIGN KEY(PATIENT_ID)  REFERENCES HEALTH_HISTORY(PATIENT_ID);
+ALTER TABLE CHILDREN_HEALTH_TRACK ADD FOREIGN KEY(CHILD_ID)  REFERENCES CHILDREN_INFORMATION(CHILD_ID);
+
+select * from Foster_Parents;
+select * from Health_History;
+select * from EMPLOYEE;
+select * from SUPERVISOR;
+select * from CHILDREN_HEALTH_TRACK;
+select * from CHILDREN_INFORMATION;
+select * from ADOPTION;
+
+
+CREATE TABLE Admin
+(
+ADMIN_ID VARCHAR2 (100) PRIMARY KEY,
+ADMIN_PASSWORD VARCHAR2 (100)
+
+);
+
+
+
+
+
+CREATE TABLE Accountt
+(
+Account_month_year VARCHAR2 (100) PRIMARY KEY,
+Principal_amount  NUMBER,
+Total_Expense NUMBER,
+Total_Earning NUMBER
+);
+
+CREATE TABLE Donor
+(
+Donor_ID VARCHAR2 (100) PRIMARY KEY,
+Donor_Name VARCHAR2 (100),
+Donor_account VARCHAR2 (100),
+Donor_Phone VARCHAR2 (100),
+Frequency Number,
+Donor_Password VARCHAR2 (100)
+
+);
+
+CREATE TABLE Donation
+(
+Donation_ID VARCHAR2 (100) PRIMARY KEY,
+Donation_amount NUMBER,
+Donation_Date date,
+Donation_Phone_no VARCHAR2 (100),
+Donation_Type VARCHAR2 (100),
+Account_month_year VARCHAR2 (100)
+
+);
+ALTER TABLE Donation ADD FOREIGN KEY(Account_month_year) REFERENCES Accountt (Account_month_year);
+
+CREATE TABLE Donor_Donation
+(
+Donor_ID VARCHAR2 (100) not null ,
+Donation_ID VARCHAR2 (100) not null
+
+);
+
+ALTER TABLE Donor_Donation ADD FOREIGN KEY(Donor_ID) REFERENCES Donor (Donor_ID);
+ALTER TABLE Donor_Donation ADD FOREIGN KEY(Donation_ID) REFERENCES Donation (Donation_ID);
+
+CREATE TABLE  Expense
+   (
+    Expense_ID VARCHAR2(100) PRIMARY KEY , 
+	 
+	Account_month_year VARCHAR2(100), 
+	Stationary NUMBER, 
+	Food NUMBER,
+    Medicine NUMBER,
+    Clothes NUMBER, 
+    Education NUMBER,
+    Extra_Expenses NUMBER,
+    Employee_salary NUMBER,
+    Expense_date date
+    
+   ) ;
+ALTER TABLE Expense ADD FOREIGN KEY(Account_month_year) REFERENCES Accountt (Account_month_year);
+
+
+
+
+INSERT INTO Health_History (Patient_ID, Health_Issue ,Appointment_date, Hospital_name, Doctor) VALUES ('P_000012','Vitamin D deficiency', to_date('10-5-2019','DD-MM-YYYY'), 'Evercare Hospital', 'Rashidul Islam');
+INSERT INTO Health_History (Patient_ID, Health_Issue ,Appointment_date, Hospital_name, Doctor) VALUES ('P_000002','Vitamin D deficiency', to_date('11-11-2019','DD-MM-YYYY'), 'Evercare Hospital', 'Anis Islam');
+INSERT INTO Health_History (Patient_ID, Health_Issue ,Appointment_date, Hospital_name, Doctor) VALUES ('P_000003','Vitamin D deficiency', to_date('12-11-2019','DD-MM-YYYY'), 'Evercare Hospital', 'Amin Islam');
+INSERT INTO Health_History (Patient_ID, Health_Issue ,Appointment_date, Hospital_name, Doctor) VALUES ('P_000004','Vitamin D deficiency', to_date('5-1-2021','DD-MM-YYYY'), 'Evercare Hospital', 'Rashidul Islam');
+INSERT INTO Health_History (Patient_ID, Health_Issue ,Appointment_date, Hospital_name, Doctor) VALUES ('P_000005','Vitamin A deficiency', to_date('10-11-2020','DD-MM-YYYY'), 'Green Hospital', 'Farid Islam');
+INSERT INTO Health_History (Patient_ID, Health_Issue ,Appointment_date, Hospital_name, Doctor) VALUES ('P_000006','Vitamin D deficiency', to_date('5-11-2019','DD-MM-YYYY'), 'Green Hospital', 'Farid Islam');
+INSERT INTO Health_History (Patient_ID, Health_Issue ,Appointment_date, Hospital_name, Doctor) VALUES ('P_000007','Vitamin A deficiency', to_date('6-11-2011','DD-MM-YYYY'), 'Evercare Hospital', 'Anis Islam');
+
+
+
+INSERT INTO Foster_Parents(Foster_NID, Foster_Father ,Foster_Mother, Foster_Phone, Foster_Address, FOSTER_PASSWORD) VALUES ('NID3245','Anis Bijoy', 'Amrin hoque', '01955966527', '13/A, Siddheswari Lane, Dhaka','f2');
+INSERT INTO Foster_Parents(Foster_NID, Foster_Father ,Foster_Mother, Foster_Phone, Foster_Address, FOSTER_PASSWORD) VALUES ('NID3255','Anis Rahman', 'Alice hoque', '01555966537', 'Bashundhara, Dhaka','f3');
+INSERT INTO Foster_Parents(Foster_NID, Foster_Father ,Foster_Mother, Foster_Phone, Foster_Address, FOSTER_PASSWORD) VALUES ('NID3265','Amin Bijoy', 'Elin hoque', '01985966597', 'Mawaghatt, Dhaka','f2');
+
+
+
+INSERT INTO Adoption (ADOPTION_ID,Foster_NID , Court_Reference,Adoption_Date) VALUES ('Ad_000001','NID3245',  'Court_11', to_date('11-11-2019','DD-MM-YYYY'));
+INSERT INTO Adoption (ADOPTION_ID,Foster_NID , Court_Reference,Adoption_Date) VALUES ('Ad_000002','NID3255',  'Court_21', to_date('12-1-2019','DD-MM-YYYY'));
+INSERT INTO Adoption (ADOPTION_ID,Foster_NID , Court_Reference,Adoption_Date) VALUES ('Ad_000003','NID3265',  'Court_31', to_date('1-1-2019','DD-MM-YYYY'));
+
+
+
+INSERT INTO EMPLOYEE (EMPLOYEE_ID, Emp_Name ,Emp_Department, Emp_Designation, Emp_Joining_date,  Salary,Years_of_working, EMPLOYEE_PASSWORD,IF_SUPERVISOR,NO_OF_CHILD_SUPERVISION) VALUES ('EM_001','RASHID',  'CLEANING', 'SECOND CLASS', to_date('10-11-2019','DD-MM-YYYY'),3000,2,'dbms',0,0);
+INSERT INTO EMPLOYEE (EMPLOYEE_ID, Emp_Name ,Emp_Department, Emp_Designation, Emp_Joining_date,  Salary,Years_of_working, EMPLOYEE_PASSWORD,IF_SUPERVISOR,NO_OF_CHILD_SUPERVISION) VALUES ('EM_002','RAKIB',  'HEALTH', 'FIRST CLASS', to_date('1-11-2019','DD-MM-YYYY'),10000,2,'dbms',1,100);
+INSERT INTO EMPLOYEE (EMPLOYEE_ID, Emp_Name ,Emp_Department, Emp_Designation, Emp_Joining_date,  Salary,Years_of_working, EMPLOYEE_PASSWORD,IF_SUPERVISOR,NO_OF_CHILD_SUPERVISION) VALUES ('EM_003','RAGIB',  'EDUCATION', 'FIRST CLASS', to_date('1-1-2019','DD-MM-YYYY'),10000,3,'dbms',1,100);
+INSERT INTO EMPLOYEE (EMPLOYEE_ID, Emp_Name ,Emp_Department, Emp_Designation, Emp_Joining_date,  Salary,Years_of_working, EMPLOYEE_PASSWORD,IF_SUPERVISOR,NO_OF_CHILD_SUPERVISION) VALUES ('EM_004','AMIT',  'FOOD', 'SECOND CLASS', to_date('1-11-2019','DD-MM-YYYY'),5000,3,'dbms',0,0);
+
+INSERT INTO  CHILDREN_INFORMATION (CHILD_ID, CHILD_NAME ,CHILD_AGE, CHILD_BED_NO, CHILD_GENDER, CHILD_HEALTH_CONDITION	, CHILD_INSTITUTION_NAME,CHILD_CLASS,CHILD_NATURE,ADDRESSING_DATE, EMPLOYEE_ID,ADOPTION_ID ) VALUES ('CH_022','MINA',6,  '2', 'FEMALE','HEALTHY','AMARI SCHOOL',2,'NORMAL', to_date('01-11-2019','DD-MM-YYYY'),'EM_002','Ad_000001');
+INSERT INTO  CHILDREN_INFORMATION (CHILD_ID, CHILD_NAME ,CHILD_AGE, CHILD_BED_NO, CHILD_GENDER, CHILD_HEALTH_CONDITION	, CHILD_INSTITUTION_NAME,CHILD_CLASS,CHILD_NATURE,ADDRESSING_DATE, EMPLOYEE_ID,ADOPTION_ID ) VALUES ('CH_023','NINA',6,  '3', 'FEMALE','HEALTHY','AMARI SCHOOL',2,'NORMAL', to_date('01-11-2019','DD-MM-YYYY'),'EM_002','Ad_000002');
+INSERT INTO  CHILDREN_INFORMATION (CHILD_ID, CHILD_NAME ,CHILD_AGE, CHILD_BED_NO, CHILD_GENDER, CHILD_HEALTH_CONDITION	, CHILD_INSTITUTION_NAME,CHILD_CLASS,CHILD_NATURE,ADDRESSING_DATE, EMPLOYEE_ID,ADOPTION_ID ) VALUES ('CH_024','RITA',6,  '4', 'FEMALE','HEALTHY','AMARI SCHOOL',2,'NORMAL', to_date('01-11-2019','DD-MM-YYYY'),'EM_003','Ad_000003');
+INSERT INTO  CHILDREN_INFORMATION (CHILD_ID, CHILD_NAME ,CHILD_AGE, CHILD_BED_NO, CHILD_GENDER, CHILD_HEALTH_CONDITION	, CHILD_INSTITUTION_NAME,CHILD_CLASS,CHILD_NATURE,ADDRESSING_DATE, EMPLOYEE_ID,ADOPTION_ID ) VALUES ('CH_005','RINA',6,  '5', 'FEMALE','HEALTHY','AMARI SCHOOL',2,'NORMAL', to_date('01-11-2019','DD-MM-YYYY'),'EM_002','');
+INSERT INTO  CHILDREN_INFORMATION (CHILD_ID, CHILD_NAME ,CHILD_AGE, CHILD_BED_NO, CHILD_GENDER, CHILD_HEALTH_CONDITION	, CHILD_INSTITUTION_NAME,CHILD_CLASS,CHILD_NATURE,ADDRESSING_DATE, EMPLOYEE_ID,ADOPTION_ID ) VALUES ('CH_006','RATUL',4,  '6', 'MALE','HEALTHY','AMARI SCHOOL',2,'ANGRY', to_date('02-11-2019','DD-MM-YYYY'),'EM_003','');
+
+
+INSERT INTO CHILDREN_HEALTH_TRACK(Patient_ID,CHILD_ID) VALUES ('P_000002','CH_022');
+INSERT INTO CHILDREN_HEALTH_TRACK(Patient_ID,CHILD_ID) VALUES ('P_000003','CH_023');
+INSERT INTO CHILDREN_HEALTH_TRACK(Patient_ID,CHILD_ID) VALUES ('P_000005','CH_024');
+INSERT INTO CHILDREN_HEALTH_TRACK(Patient_ID,CHILD_ID) VALUES ('P_000004','CH_005');
+
+
+
+
+
+
+create or replace procedure
+create_person (p_id in varchar2,p_name in varchar2,p_age in number,p_bed in varchar2,p_gen in varchar2,p_health in nvarchar2,p_inst in varchar2,p_class in numeric,p_nature in varchar2,p_date in date,p_emp in varchar2,p_adopt in varchar2)
+as
+begin
+insert into children_information(CHILD_ID, CHILD_NAME ,CHILD_AGE, CHILD_BED_NO, CHILD_GENDER, CHILD_HEALTH_CONDITION, CHILD_INSTITUTION_NAME,CHILD_CLASS,CHILD_NATURE,ADDRESSING_DATE, EMPLOYEE_ID,ADOPTION_ID)
+values(p_id,p_name ,p_age ,p_bed ,p_gen,p_health,p_inst,p_class,p_nature,p_date,p_emp,p_adopt);
+end;
+
+
+
+
+create sequence donor_id_gen
+MINVALUE 1
+START WITH 1
+INCREMENT BY 1;
+
+SELECT  donor_id_gen.NEXTVAL
+FROM DUAL;
+
+Insert into Donor values('D_'||donor_id_gen.NEXTVAL, 'Fariha' ,'accounts135', '018167', 0,'dbms' );
+
+
+
+create or replace procedure 
+create_donor (d_id out varchar2,d_name in varchar2,d_acc in varchar2,d_phn in varchar2,d_fre in number,d_pass in varchar2)
+as
+begin
+d_id:='D_'||donor_id_gen.NEXTVAL;
+
+insert into donor(DONOR_ID, DONOR_NAME ,DONOR_ACCOUNT, DONOR_PHONE, FREQUENCY, DONOR_PASSWORD)
+values(d_id,d_name,d_acc ,d_phn,d_fre ,d_pass);
+end;
+
+declare
+did varchar2(50);
+begin
+create_donor(did,'TINA','6', '2',0,'a');
+end;
+
+
+
+
+
+
+select foster_NID, foster_father,foster_mother, foster_phone,child_id, child_name, adoption_id 
+from adoption join foster_parents using(foster_NID)
+ join children_information using(adoption_id);
+ 
+ 
+ select DONOR_ID,DONOR_DONATION.DONATION_ID 
+ from DONOR_DONATION inner join DONATION on DONOR_DONATION.DONATION_ID=DONATION.DONATION_ID;
+
+
+ 
+ select HEALTH_ISSUE,APPOINTMENT_DATE,HOSPITAL_NAME,DOCTOR from HEALTH_HISTORY
+ inner join CHILDREN_HEALTH_TRACK on CHILDREN_HEALTH_TRACK.CHILD_ID='$cid' and HEALTH_HISTORY.PATIENT_ID=CHILDREN_HEALTH_TRACK.PATIENT_ID;
+ 
+ 
+select sum(EMPLOYEE_SALARY) from EXPENSE WHERE EXPENSE.ACCOUNT_MONTH_YEAR='062021'
+
+
+
+
+
